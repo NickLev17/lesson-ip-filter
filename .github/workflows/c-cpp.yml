@@ -3,8 +3,6 @@ name: C/C++ CI
 on:
   push:
     branches: [ "main" ,"feature/github_actions"]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
