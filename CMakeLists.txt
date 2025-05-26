@@ -1,32 +1,16 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
-set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
-project(filter VERSION ${PROJECT_VESRION})
-
-
-
+project(filter)
 
 
 add_executable(ip_filter main.cpp)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/ip_filter.tsv
-        ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 
-set_target_properties(ip_filter filter PROPERTIES
+set_target_properties(ip_filter PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
-
-target_include_directories(filter
-    PRIVATE "${CMAKE_BINARY_DIR}"
-)
-
-target_link_libraries(ip_filter PRIVATE
-    filter
-)
-
 
 
 
