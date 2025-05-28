@@ -13,13 +13,7 @@ set_target_properties(ip_filter PROPERTIES
     CXX_STANDARD_REQUIRED ON
 )
 
-target_include_directories(filter
-    PRIVATE "${CMAKE_BINARY_DIR}"
-)
 
-target_link_libraries(ip_filter PRIVATE
-   filter
-)
 
 install(TARGETS ip_filter RUNTIME DESTINATION bin)
 
