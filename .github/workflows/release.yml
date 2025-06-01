@@ -1,11 +1,12 @@
-name: 'C++ CI'
+name: 'C++ CI + Release'
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,8 +15,10 @@ jobs:
         with:
           submodules: true
 
-      - name: Install Boost
-        run: sudo apt-get update && sudo apt-get install libboost-test-dev -y
+      - name: Install dependencies (Boost, gh)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libboost-test-dev gh
 
       - name: Configure CMake
         run: cmake . -DPATCH_VERSION=${{ github.run_number }} -DWITH_BOOST_TEST=ON
@@ -23,24 +26,18 @@ jobs:
       - name: Build project
         run: cmake --build .
 
-      - name: Package DEB
+      - name: Package as .deb
         run: cmake --build . --target package
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
-          draft: false
-          prerelease: false
-          token: ${{ secrets.PAT_TOKEN }} 
+      - name: Create GitHub Release using gh CLI
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          VERSION=${{ github.run_number }}
+          RELEASE_NAME="Release $VERSION"
+          PACKAGE_PATH="./ip_filter-0.0.${VERSION}-Linux.deb"
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ip_filter-0.0.${{ github.run_number }}-Linux.deb
-          asset_name: ip_filter-0.0.${{ github.run_number }}-Linux.deb
-          asset_content_type: application/vnd.debian.binary-package
-          token: ${{ secrets.PAT_TOKEN }} 
+          gh release create "$VERSION" "$PACKAGE_PATH" \
+            --title "$RELEASE_NAME" \
+            --notes "Автоматически созданный релиз" \
+            --repo "${{ github.repository }}"
