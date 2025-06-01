@@ -1,4 +1,4 @@
-name: 'C++ CI + Release'
+name: 'C++ CI and Release'
 
 on:
   push:
@@ -10,34 +10,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
           submodules: true
 
-      - name: Install dependencies (Boost, gh)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libboost-test-dev gh
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y libboost-test-dev
 
-      - name: Configure CMake
+      - name: Configure project
         run: cmake . -DPATCH_VERSION=${{ github.run_number }} -DWITH_BOOST_TEST=ON
 
       - name: Build project
         run: cmake --build .
 
-      - name: Package as .deb
+      - name: Package project
         run: cmake --build . --target package
 
-      - name: Create GitHub Release using gh CLI
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt update
+          sudo apt install gh -y
+
+      - name: Create GitHub Release using gh
         run: |
           VERSION=${{ github.run_number }}
-          RELEASE_NAME="Release $VERSION"
-          PACKAGE_PATH="./ip_filter-0.0.${VERSION}-Linux.deb"
+          gh release create "$VERSION" \
+            --title "Release $VERSION" \
+            --notes "Автоматически созданный релиз"
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
-          gh release create "$VERSION" "$PACKAGE_PATH" \
-            --title "$RELEASE_NAME" \
-            --notes "Автоматически созданный релиз" \
-            --repo "${{ github.repository }}"
+      - name: Upload Release Asset
+        run: |
+          VERSION=${{ github.run_number }}
+          gh release upload "$VERSION" ./ip_filter-0.0.${VERSION}-Linux.deb --clobber
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
