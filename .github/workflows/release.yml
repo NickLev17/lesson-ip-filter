@@ -29,6 +29,7 @@ jobs:
           release_name: Release ${{ github.run_number }}
           draft: false
           prerelease: false
+          token: ${{secrets.PAT_TOKEN}}
 
           
       - name: Upload Release Asset
