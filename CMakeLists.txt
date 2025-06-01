@@ -9,7 +9,6 @@ project(filter VERSION ${PROJECT_VERSION})
 configure_file(ip_filter.tsv ip_filter.tsv COPYONLY)
 
 
-option(WITH_BOOST_TEST "Whether to build Boost test" OFF)
 
 add_executable(filter main.cpp)
 
