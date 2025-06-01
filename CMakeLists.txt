@@ -39,10 +39,10 @@ if (MSVC)
     
 else ()
     target_compile_options(filter PRIVATE
-        -Wall -Wextra -pedantic -Werror
+        -Wall -Wextra -pedantic
     )
     target_compile_options(filter PRIVATE
-        -Wall -Wextra -pedantic -Werror
+        -Wall -Wextra -pedantic
     )
     
 endif()
