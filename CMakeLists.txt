@@ -14,7 +14,7 @@ option(WITH_BOOST_TEST "Whether to build Boost test" ON)
 add_executable(filter main.cpp)
 
 
-set_target_properties(ip_filter filter PROPERTIES
+set_target_properties(filter filter PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
@@ -23,14 +23,14 @@ target_include_directories(filter
     PRIVATE "${CMAKE_BINARY_DIR}"
 )
 
-target_link_libraries(ip_filter PRIVATE
+target_link_libraries(filter PRIVATE
     helloworld
 )
 
 
 
 if (MSVC)
-    target_compile_options(ip_filter PRIVATE
+    target_compile_options(filter PRIVATE
         /W4
     )
     target_compile_options(filter PRIVATE
@@ -38,7 +38,7 @@ if (MSVC)
     )
     
 else ()
-    target_compile_options(ip_filter PRIVATE
+    target_compile_options(filter PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
     target_compile_options(filter PRIVATE
@@ -47,7 +47,7 @@ else ()
     
 endif()
 
-install(TARGETS ip_filter RUNTIME DESTINATION bin)
+install(TARGETS filter RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
