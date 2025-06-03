@@ -7,6 +7,9 @@ set(PROJECT_VERSION 0.0.${PATCH_VERSION})
 project(filter VERSION ${PROJECT_VERSION})
 
 configure_file(ip_filter.tsv ip_filter.tsv COPYONLY)
+configure_file(ip_filter.tsv 
+${CMAKE_CURRENT_BINARY_DIR}/debug/ip_filter.tsv COPYONLY)
+
 configure_file(version.h.in version.h)
 
 
