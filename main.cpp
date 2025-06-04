@@ -11,7 +11,7 @@ using namespace std;
 
 void find_any_byte(vector<vector<string>>::const_iterator& first, vector<vector<string>>::const_iterator& last, int byte)
 {
-    for (auto ip{ first }; ip != last; ++ip)
+    for (auto ip{ first }; ip != last-1; ++ip)
     {
 
 
@@ -40,7 +40,7 @@ void find_some_byte(vector<vector<string>>::const_iterator& first, vector<vector
 {
    
     
-    for (auto ip{ first }; ip != last; ++ip)
+    for (auto ip{ first }; ip != last-1; ++ip)
     {
         
         
@@ -73,7 +73,7 @@ void find_some_byte(vector<vector<string>>::const_iterator& first, vector<vector
 
     void find_byte(vector<vector<string>>::const_iterator & first, vector<vector<string>>::const_iterator & last, int value)
     {
-        for (auto ip{ first }; ip != last; ++ip)
+        for (auto ip{ first }; ip != last-1; ++ip)
         {
             if (atoi(ip->at(0).data()) == 1)
             {
@@ -96,7 +96,7 @@ void find_some_byte(vector<vector<string>>::const_iterator& first, vector<vector
 
     void printData(vector<vector<string>>::const_iterator & first, vector<vector<string>>::const_iterator & last)
     {
-        for (auto ip{ first }; ip != last; ++ip)
+        for (auto ip{ first }; ip != last-1; ++ip)
         {
 
             for (auto ip_part{ ip->begin() }; ip_part != ip->end(); ++ip_part)
@@ -151,7 +151,7 @@ try
 
             while (std::getline(in, line))
             {
-                std::vector<std::string> v = split(line, '\t'); // формируем вектор извлеченных данных -записываем строчку в вектор до первого символа табул¤ции
+                std::vector<std::string> v = split(line, '\t'); 
                 ip_pool.push_back(split(v.at(0), '.'));
             }
         }
@@ -162,11 +162,10 @@ try
         auto it_last{ ip_pool.cend() };
 
       
-
-        ////////////////////////////////////////////////Сортировка по 4-м байтам
+                  // 4-byte sort
         auto compare_fhour_byte = [](vector<string> a, vector <string> b)
         {
-            if (atoi(a.at(0).data()) == atoi(b.at(0).data()))// если первые байты равны, то переходим ко вторым, и так далее
+            if (atoi(a.at(0).data()) == atoi(b.at(0).data()))
             {
                 if (atoi(a.at(1).data()) == atoi(b.at(1).data()))
                 {
@@ -186,24 +185,24 @@ try
             }
             else
             {
-                return  atoi(a.at(0).data()) > atoi(b.at(0).data());// если первые байты не равны, то срввниваем их между собой
+                return  atoi(a.at(0).data()) > atoi(b.at(0).data());
             }
         };
 
         std::sort(ip_pool.begin(), ip_pool.end(), compare_fhour_byte);
        
         
-        printData(it_first, it_last);//вывод адресов после сортировки по 4-м байтам
+        printData(it_first, it_last); //ip output after sorting by 4 bytes
 
 
-        find_byte(it_first, it_last, 1);// вывод элементов равных 1 в 1 байте
+        find_byte(it_first, it_last, 1);//output of ip  equal to 1 in one byte
 
         tuple<int, int> byte;
         byte = make_tuple(46, 70);
-        find_some_byte(it_first, it_last, byte);// вывод элементов равных 46 в 1 байте и 70 во втором байте
+        find_some_byte(it_first, it_last, byte);// output ip equal 46 (1 byte) 70 (2byte)
   
 
-        find_any_byte(it_first, it_last, 46);// вывод элементов равных любой байт которыйх равен 46
+        find_any_byte(it_first, it_last, 46);// output of ip any byte is 46
 
 
     
@@ -211,7 +210,7 @@ try
 }
     
 
-        catch (const std::exception& e)// обработка исключения
+        catch (const std::exception& e)// Г®ГЎГ°Г ГЎГ®ГІГЄГ  ГЁГ±ГЄГ«ГѕГ·ГҐГ­ГЁГї
         {
             std::cerr << e.what() << std::endl;
         }
