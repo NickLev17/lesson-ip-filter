@@ -13,7 +13,7 @@ ${CMAKE_CURRENT_BINARY_DIR}/debug/ip_filter.tsv COPYONLY)
 configure_file(version.h.in version.h)
 
 
-add_executable(filter main.cpp)
+add_executable(filter ip_filter.cpp)
 
 
 set_target_properties(filter PROPERTIES
