@@ -28,7 +28,7 @@ void find_any_byte(vector<vector<string>>::const_iterator& first, vector<vector<
                 }
                 std::cout << *ip_part;
             }
-            cout << endl;
+            cout << "\n";
         }
 
     }
@@ -40,7 +40,7 @@ void find_some_byte(vector<vector<string>>::const_iterator& first, vector<vector
 {
    
     
-    for (auto ip{ first }; ip != last-1; ++ip)
+    for (auto ip{ first }; ip != last; ++ip)
     {
         
         
@@ -57,7 +57,7 @@ void find_some_byte(vector<vector<string>>::const_iterator& first, vector<vector
                 }
                 std::cout << *ip_part;
             }
-            cout << endl;
+            cout << "\n";
         }
 
 
@@ -73,7 +73,7 @@ void find_some_byte(vector<vector<string>>::const_iterator& first, vector<vector
 
     void find_byte(vector<vector<string>>::const_iterator & first, vector<vector<string>>::const_iterator & last, int value)
     {
-        for (auto ip{ first }; ip != last-1; ++ip)
+        for (auto ip{ first }; ip != last; ++ip)
         {
             if (atoi(ip->at(0).data()) == 1)
             {
@@ -87,7 +87,7 @@ void find_some_byte(vector<vector<string>>::const_iterator& first, vector<vector
                     }
                     std::cout << *ip_part;
                 }
-                cout << endl;
+                cout << "\n";
             }
         }
     }
@@ -96,6 +96,7 @@ void find_some_byte(vector<vector<string>>::const_iterator& first, vector<vector
 
     void printData(vector<vector<string>>::const_iterator & first, vector<vector<string>>::const_iterator & last)
     {
+        int size_vec{};
         for (auto ip{ first }; ip != last-1; ++ip)
         {
 
@@ -109,10 +110,10 @@ void find_some_byte(vector<vector<string>>::const_iterator& first, vector<vector
                 std::cout << *ip_part;
 
             }
-            cout << endl;
-
+            cout << "\n";
+//size_vec++;
         }
-
+//cout<<size_vec<<" SIZE "<<"\n";
     }
 
     std::vector<std::string> split(const std::string & str, char d) 
@@ -158,8 +159,7 @@ try
 
         in.close();
 
-        auto it_first{ ip_pool.cbegin() };
-        auto it_last{ ip_pool.cend() };
+       
 
       
                   // 4-byte sort
@@ -190,6 +190,9 @@ try
         };
 
         std::sort(ip_pool.begin(), ip_pool.end(), compare_fhour_byte);
+        
+        auto it_first{ ip_pool.cbegin() };
+        auto it_last{ ip_pool.cend() };
        
         
         printData(it_first, it_last); //ip output after sorting by 4 bytes
@@ -212,7 +215,7 @@ try
 
         catch (const std::exception& e)// îáðàáîòêà èñêëþ÷åíèÿ
         {
-            std::cerr << e.what() << std::endl;
+            std::cerr << e.what() << "\n";
         }
 
         return 0;
