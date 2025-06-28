@@ -11,11 +11,8 @@ using namespace std;
 
 void find_any_byte(vector<vector<string>>::const_iterator& first, vector<vector<string>>::const_iterator& last, int byte)
 {
-    for (auto ip{ first }; ip != last; ++ip)
+    for (auto ip{ first }; next(ip) != last; ++ip)
     {
-
-if(std::next(ip)==last)
-    break;
 
         if ((atoi(ip->at(0).data()) == byte)|| (atoi(ip->at(1).data()) == byte) || (atoi(ip->at(2).data()) == byte) || (atoi(ip->at(3).data()) == byte) )
         {
@@ -98,10 +95,9 @@ void find_some_byte(vector<vector<string>>::const_iterator& first, vector<vector
     void printData(vector<vector<string>>::const_iterator & first, vector<vector<string>>::const_iterator & last)
     {
         int size_vec{};
-        for (auto ip{ first }; ip != last; ++ip)
+        for (auto ip{ first }; next(ip) != last; ++ip)
         {
-if(std::next(ip)==last)
-    break;
+
             for (auto ip_part{ ip->begin() }; ip_part != ip->end(); ++ip_part)
             {
                 if (ip_part != ip->cbegin())
